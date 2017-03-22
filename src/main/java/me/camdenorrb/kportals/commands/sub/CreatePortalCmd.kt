@@ -33,7 +33,7 @@ class CreatePortalCmd : SubCmd("-create", "/Portal -create <Name> <Type> <ToArg>
 		val portalSelection = getPortalIn(Position(selection.minimumPoint), Position(selection.maximumPoint))
 
 		kPortals.portals.add(Portal(name, args.joinToString(" "), type, portalSelection))
-		sender.sendMessage("${DARK_GREEN}You have successfully claimed the portal! ${LIGHT_PURPLE}Name: ${args[0]}, Type: $type")
+		sender.sendMessage("${DARK_GREEN}You have successfully claimed the portal with the name: $LIGHT_PURPLE$name ${DARK_GREEN}and the type $LIGHT_PURPLE$type$DARK_GREEN!")
 		return true
 	}
 
