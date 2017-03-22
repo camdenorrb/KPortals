@@ -17,7 +17,6 @@ import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 import java.util.*
 
-
 /**
  * Created by camdenorrb on 3/20/17.
  */
