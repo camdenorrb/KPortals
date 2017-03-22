@@ -47,7 +47,7 @@ class PortalCmd(val kPortals: KPortals) : TabExecutor {
 				"   $DARK_AQUA- /portal -args <PortalName>",
 				"   $DARK_AQUA- /portal -list",
 		        "\n${GREEN}Portal Types + Args:",
-				"   ${GOLD}ConsoleCommand - (Command without / , use %player% to represent the player name)",
+				"   ${GOLD}ConsoleCommand - (Command without /  use %player% to represent the player name)",
 				"   ${GOLD}PlayerCommand - (Command without /)",
 				"   ${GOLD}Random - (Radius no decimals)",
 				"   ${GOLD}Bungee - (Server name)",
