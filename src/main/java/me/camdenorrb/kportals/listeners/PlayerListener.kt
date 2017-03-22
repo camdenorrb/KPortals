@@ -43,7 +43,7 @@ class PlayerListener(val kPortals: KPortals) : Listener, MiniListener {
 			Bungee -> KPortals.sendToServer(player, portal.toArgs)
 			Random -> player.teleport(toPos.randomSafePos(portal.toArgs.toIntOrNull() ?: return player.sendMessage(portalNotCorrectMsg)).toLocation())
 			PlayerCommand -> player.chat("/${portal.toArgs}")
-			ConsoleCommand -> Bukkit.dispatchCommand(kPortals.server.consoleSender, portal.toArgs)
+			ConsoleCommand -> Bukkit.dispatchCommand(kPortals.server.consoleSender, portal.toArgs.replace("%player%", player.name))
 			else -> return
 		}
 
