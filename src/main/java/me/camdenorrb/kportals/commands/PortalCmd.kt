@@ -27,7 +27,7 @@ class PortalCmd(val kPortals: KPortals) : TabExecutor {
 				?: return { sender.sendMessage(helpMsg); true }()
 
 
-		if (sender.hasPermission(subCmd.permission).not()) sender.sendMessage("${RED}You don't have the neccessary permission node $AQUA\"${subCmd.permission}\"!")
+		if (sender.hasPermission(subCmd.permission).not()) sender.sendMessage("${RED}You don't have the necessary permission node $AQUA\"${subCmd.permission}\"!")
 
 		if (subCmd.execute(sender, kPortals, arguments).not()) sender.sendMessage("$RED${subCmd.usage}")
 
@@ -40,9 +40,11 @@ class PortalCmd(val kPortals: KPortals) : TabExecutor {
 		val helpMsg = arrayOf(
 				"\n${GREEN}Commands:",
 				"   $DARK_AQUA- /portal -create <Name> <Type> <Arguments>",
-				"   $DARK_AQUA- /portal -setArguments <Name> <Arguments>",
-				"   $DARK_AQUA- /portal -setType <Name> <Type>",
-				"   $DARK_AQUA- /portal -remove <Name>",
+				"   $DARK_AQUA- /portal -setArguments <PortalName> <Arguments>",
+				"   $DARK_AQUA- /portal -setType <PortalName> <Type>",
+				"   $DARK_AQUA- /portal -type <PortalName>",
+				"   $DARK_AQUA- /portal -args <PortalName>",
+				"   $DARK_AQUA- /portal -remove <PortalName>",
 				"   $DARK_AQUA- /portal -list",
 		        "\n${GREEN}Portal Types + Args:",
 				"   ${GOLD}ConsoleCommand - (Command without /)",
