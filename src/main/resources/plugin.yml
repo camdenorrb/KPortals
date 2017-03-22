@@ -1,0 +1,13 @@
+name: KPortals
+author: MrKitty_Cat
+version: ${project.version}
+main: me.camdenorrb.kportals.KPortals
+
+prefix: KPortals
+depends: [WorldEdit]
+description: A kat made portal plugin
+
+commands:
+  portal:
+    usage: "/Portal"
+    permission: "KPortal.command"
