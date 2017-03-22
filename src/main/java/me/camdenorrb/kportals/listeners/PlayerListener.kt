@@ -32,13 +32,15 @@ class PlayerListener(val kPortals: KPortals) : Listener, MiniListener {
 	@EventWatcher
 	fun onMoveBlock(event: PlayerMoveBlockEvent) {
 
+		if (event.cancelled) return
+
 		val player = event.player
 		val toPos = Position(event.toBlock.location)
 		val portal = kPortals.portals.find { it.positions.any { it == toPos } } ?: return
 
 		if (KPortals.miniBus.fire(PlayerKPortalEnterEvent(player, portal)).cancelled) return
 
-		when(portal.type) {
+		when (portal.type) {
 			World -> player.teleport(Bukkit.getWorld(portal.toArgs)?.spawnLocation ?: return player.sendMessage(portalNotCorrectMsg))
 			Bungee -> KPortals.sendToServer(player, portal.toArgs)
 			Random -> player.teleport(toPos.randomSafePos(portal.toArgs.toIntOrNull() ?: return player.sendMessage(portalNotCorrectMsg)).toLocation())
