@@ -1,7 +1,7 @@
 package me.camdenorrb.kportals.commands.sub
 
 import me.camdenorrb.kportals.KPortals
-import me.camdenorrb.kportals.messages.Messages
+import me.camdenorrb.kportals.messages.Messages.PORTAL_NOT_FOUND
 import org.bukkit.ChatColor.*
 import org.bukkit.command.CommandSender
 
@@ -17,7 +17,7 @@ class TypeCmd : SubCmd("-type", "/Portal -type <PortalName>", "kportals.type") {
 
 
 		val portal = kPortals.portals.find { it.name.equals(args[0], true) }
-				?: return { sender.sendMessage(Messages.PORTAL_NOT_FOUND.toString()); true }()
+				?: return { PORTAL_NOT_FOUND.send(sender); true }()
 
 
 		sender.sendMessage("${DARK_GREEN}The type of the portal: $AQUA${portal.name}$DARK_GREEN, is $LIGHT_PURPLE${portal.type}!")

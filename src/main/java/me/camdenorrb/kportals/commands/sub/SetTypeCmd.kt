@@ -1,10 +1,9 @@
 package me.camdenorrb.kportals.commands.sub
 
 import me.camdenorrb.kportals.KPortals
-import me.camdenorrb.kportals.messages.Messages
+import me.camdenorrb.kportals.messages.Messages.*
 import me.camdenorrb.kportals.portal.PortalType
-import org.bukkit.ChatColor.AQUA
-import org.bukkit.ChatColor.DARK_GREEN
+import org.bukkit.ChatColor.*
 import org.bukkit.command.CommandSender
 
 /**
@@ -21,10 +20,10 @@ class SetTypeCmd : SubCmd("-setType", "/Portal -setType <Name> <Type>", "kportal
 		val name = args[0]
 
 		val type = PortalType.byName(args[1])
-				?: return { sender.sendMessage(Messages.TYPE_DOES_NOT_EXIST.toString()); true }()
+				?: return { TYPE_DOES_NOT_EXIST.send(sender); true }()
 
 		val portal = kPortals.portals.find { it.name.equals(name, true) }
-				?: return { sender.sendMessage(Messages.PORTAL_NOT_FOUND.toString()); true }()
+				?: return { PORTAL_NOT_FOUND.send(sender); true }()
 
 
 		portal.type = type

@@ -1,6 +1,10 @@
 package me.camdenorrb.kportals.messages
 
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.DARK_AQUA
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GREEN
+import org.bukkit.ChatColor.RED
+import org.bukkit.command.CommandSender
 
 /**
  * Created by camdenorrb on 3/23/17.
@@ -13,6 +17,8 @@ enum class Messages(val message: String) {
 	NO_SELECTION("${RED}You have no WorldEdit selection of the portal!"),
 	NAME_ALREADY_EXISTS("${RED}The name you have provided already exists for another portal!");
 
+
+	fun send(sender: CommandSender) = sender.sendMessage(this.toString())
 
 	override fun toString() = message
 

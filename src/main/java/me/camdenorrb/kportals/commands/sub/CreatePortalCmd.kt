@@ -2,15 +2,13 @@ package me.camdenorrb.kportals.commands.sub
 
 import com.sk89q.worldedit.bukkit.selections.CuboidSelection
 import me.camdenorrb.kportals.KPortals
-import me.camdenorrb.kportals.messages.Messages
+import me.camdenorrb.kportals.messages.Messages.*
 import me.camdenorrb.kportals.portal.Portal
 import me.camdenorrb.kportals.portal.PortalType
 import me.camdenorrb.kportals.position.Position
 import org.bukkit.Bukkit
-import org.bukkit.ChatColor.DARK_GREEN
-import org.bukkit.ChatColor.LIGHT_PURPLE
-import org.bukkit.Material.EMERALD_BLOCK
-import org.bukkit.Material.REDSTONE_BLOCK
+import org.bukkit.ChatColor.*
+import org.bukkit.Material.*
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -25,12 +23,12 @@ class CreatePortalCmd : SubCmd("-create", "/Portal -create <Name> <Type> <ToArg>
 		if (sender !is Player || args.size != 3) return false
 
 		val name = args.removeAt(0)
-		if (kPortals.portals.any { it.name.equals(name, true) }) return { sender.sendMessage(Messages.NAME_ALREADY_EXISTS.toString()); true }()
+		if (kPortals.portals.any { it.name.equals(name, true) }) return { NAME_ALREADY_EXISTS.send(sender); true }()
 
 		val type = PortalType.byName(args.removeAt(0)) ?: return false
 		val selection = KPortals.worldEdit.getSelection(sender)
 		
-		if (selection == null || selection !is CuboidSelection) return { sender.sendMessage(Messages.NO_SELECTION.toString()); true }()
+		if (selection == null || selection !is CuboidSelection) return { NO_SELECTION.send(sender); true }()
 
 		val portalSelection = getPortalIn(Position(selection.minimumPoint), Position(selection.maximumPoint))
 

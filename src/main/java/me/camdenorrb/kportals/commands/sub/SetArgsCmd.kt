@@ -1,6 +1,7 @@
 package me.camdenorrb.kportals.commands.sub
 
 import me.camdenorrb.kportals.KPortals
+import me.camdenorrb.kportals.messages.Messages.PORTAL_NOT_FOUND
 import org.bukkit.ChatColor.*
 import org.bukkit.command.CommandSender
 
@@ -18,7 +19,7 @@ class SetArgsCmd : SubCmd("-setArgs", "/Portal -setArgs (PortalName) (Args)", "k
 		val name = args.removeAt(0)
 
 		val portal = kPortals.portals.find { it.name.equals(name, true) }
-				?: return { sender.sendMessage("${RED}Portal not found!"); true }()
+				?: return { PORTAL_NOT_FOUND.send(sender); true }()
 
 
 		portal.toArgs = args.joinToString(" ")

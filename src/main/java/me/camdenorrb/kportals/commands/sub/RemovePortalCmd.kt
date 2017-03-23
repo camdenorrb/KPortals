@@ -1,9 +1,8 @@
 package me.camdenorrb.kportals.commands.sub
 
 import me.camdenorrb.kportals.KPortals
-import me.camdenorrb.kportals.messages.Messages
-import org.bukkit.ChatColor.DARK_GREEN
-import org.bukkit.ChatColor.LIGHT_PURPLE
+import me.camdenorrb.kportals.messages.Messages.TYPE_DOES_NOT_EXIST
+import org.bukkit.ChatColor.*
 import org.bukkit.command.CommandSender
 
 /**
@@ -16,7 +15,7 @@ class RemovePortalCmd : SubCmd("-remove", "/Portal -remove <Name>", "kportals.re
 
 		if (args.isEmpty()) return false
 
-		if (kPortals.portals.removeIf { it.name.equals(args[0], true) }.not()) return { sender.sendMessage(Messages.PORTAL_NOT_FOUND.toString()); true }()
+		if (kPortals.portals.removeIf { it.name.equals(args[0], true) }.not()) return { TYPE_DOES_NOT_EXIST.send(sender); true }()
 
 
 		sender.sendMessage("${DARK_GREEN}Successful removed $LIGHT_PURPLE${args[0]} ${DARK_GREEN}from existing portals.")
