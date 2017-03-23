@@ -17,7 +17,7 @@ class TypeCmd : SubCmd("-type", "/Portal -type <PortalName>", "kportals.type") {
 
 
 		val portal = kPortals.portals.find { it.name.equals(args[0], true) }
-				?: return { sender.sendMessage(Messages.portalNotFound); true }()
+				?: return { sender.sendMessage(Messages.PORTAL_NOT_FOUND.toString()); true }()
 
 
 		sender.sendMessage("${DARK_GREEN}The type of the portal: $AQUA${portal.name}$DARK_GREEN, is $LIGHT_PURPLE${portal.type}!")

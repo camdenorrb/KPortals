@@ -25,12 +25,12 @@ class CreatePortalCmd : SubCmd("-create", "/Portal -create <Name> <Type> <ToArg>
 		if (sender !is Player || args.size != 3) return false
 
 		val name = args.removeAt(0)
-		if (kPortals.portals.any { it.name.equals(name, true) }) return { sender.sendMessage(Messages.nameAlreadyExists); true }()
+		if (kPortals.portals.any { it.name.equals(name, true) }) return { sender.sendMessage(Messages.NAME_ALREADY_EXISTS.toString()); true }()
 
 		val type = PortalType.byName(args.removeAt(0)) ?: return false
 		val selection = KPortals.worldEdit.getSelection(sender)
 		
-		if (selection == null || selection !is CuboidSelection) return { sender.sendMessage(Messages.noSelection); true }()
+		if (selection == null || selection !is CuboidSelection) return { sender.sendMessage(Messages.NO_SELECTION.toString()); true }()
 
 		val portalSelection = getPortalIn(Position(selection.minimumPoint), Position(selection.maximumPoint))
 

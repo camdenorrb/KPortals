@@ -16,7 +16,7 @@ class RemovePortalCmd : SubCmd("-remove", "/Portal -remove <Name>", "kportals.re
 
 		if (args.isEmpty()) return false
 
-		if (kPortals.portals.removeIf { it.name.equals(args[0], true) }.not()) return { sender.sendMessage(Messages.portalNotFound); true }()
+		if (kPortals.portals.removeIf { it.name.equals(args[0], true) }.not()) return { sender.sendMessage(Messages.PORTAL_NOT_FOUND.toString()); true }()
 
 
 		sender.sendMessage("${DARK_GREEN}Successful removed $LIGHT_PURPLE${args[0]} ${DARK_GREEN}from existing portals.")

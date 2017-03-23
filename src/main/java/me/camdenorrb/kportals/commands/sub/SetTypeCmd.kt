@@ -21,10 +21,10 @@ class SetTypeCmd : SubCmd("-setType", "/Portal -setType <Name> <Type>", "kportal
 		val name = args[0]
 
 		val type = PortalType.byName(args[1])
-				?: return { sender.sendMessage(Messages.typeDoesNotExist); true }()
+				?: return { sender.sendMessage(Messages.TYPE_DOES_NOT_EXIST.toString()); true }()
 
 		val portal = kPortals.portals.find { it.name.equals(name, true) }
-				?: return { sender.sendMessage(Messages.portalNotFound); true }()
+				?: return { sender.sendMessage(Messages.PORTAL_NOT_FOUND.toString()); true }()
 
 
 		portal.type = type
