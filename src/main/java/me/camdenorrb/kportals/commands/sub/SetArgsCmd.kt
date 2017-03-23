@@ -22,7 +22,7 @@ class SetArgsCmd : SubCmd("-setArgs", "/Portal -setArgs (PortalName) (Args)", "k
 
 
 		portal.toArgs = args.joinToString(" ")
-		sender.sendMessage("${DARK_GREEN}The portal $LIGHT_PURPLE$name arguments is now { $LIGHT_PURPLE${portal.toArgs} $DARK_GREEN}")
+		sender.sendMessage("${DARK_GREEN}The portal $LIGHT_PURPLE$name's ${DARK_GREEN}arguments is now { $LIGHT_PURPLE${portal.toArgs} $DARK_GREEN}")
 		return true
 	}
 
