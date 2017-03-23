@@ -119,15 +119,6 @@
             <type>jar</type>
         </dependency>
 
-        <!--Kotlin Reflect dependency-->
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-reflect</artifactId>
-            <version>${kotlin.version}</version>
-            <scope>compile</scope>
-            <type>jar</type>
-        </dependency>
-
         <!-- Kotlin Test Dependency -->
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
