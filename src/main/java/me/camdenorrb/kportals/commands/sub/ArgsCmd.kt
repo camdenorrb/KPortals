@@ -1,6 +1,7 @@
 package me.camdenorrb.kportals.commands.sub
 
 import me.camdenorrb.kportals.KPortals
+import org.bukkit.ChatColor
 import org.bukkit.ChatColor.DARK_GREEN
 import org.bukkit.ChatColor.LIGHT_PURPLE
 import org.bukkit.command.CommandSender
@@ -17,7 +18,7 @@ class ArgsCmd : SubCmd("-args", "/Portal -args <PortalName>", "kportals.args") {
 
 		val portal = kPortals.portals.find { it.name.equals(args[0], true) } ?: return false
 
-		sender.sendMessage("$LIGHT_PURPLE${portal.name}'s ${DARK_GREEN}arguments are { $LIGHT_PURPLE${portal.toArgs} $DARK_GREEN}")
+		sender.sendMessage("${DARK_GREEN}The arguments of the portal: ${ChatColor.AQUA}${portal.name}$DARK_GREEN, is { $LIGHT_PURPLE${portal.toArgs} $DARK_GREEN}!")
 		return true
 	}
 
