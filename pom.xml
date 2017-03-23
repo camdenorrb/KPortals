@@ -115,6 +115,17 @@
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib-jre8</artifactId>
             <version>${kotlin.version}</version>
+            <scope>compile</scope>
+            <type>jar</type>
+        </dependency>
+
+        <!--Kotlin Reflect dependency-->
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-reflect</artifactId>
+            <version>${kotlin.version}</version>
+            <scope>compile</scope>
+            <type>jar</type>
         </dependency>
 
     </dependencies>
