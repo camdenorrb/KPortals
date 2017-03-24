@@ -7,7 +7,7 @@
 
     <groupId>me.camdenorrb</groupId>
     <artifactId>KPortals</artifactId>
-    <version>Kat1.0.4</version>
+    <version>Kat1.0.5</version>
     <packaging>jar</packaging>
 
     <name>KPortals</name>
