@@ -20,7 +20,7 @@ class CreatePortalCmd : SubCmd("-create", "/Portal -create <Name> <Type> <ToArg>
 
 	override fun execute(sender: CommandSender, kPortals: KPortals, args: MutableList<String>): Boolean {
 
-		if (sender !is Player || args.size != 3) return false
+		if (sender !is Player || args.size < 3) return false
 
 		val name = args.removeAt(0)
 		if (kPortals.portals.any { it.name.equals(name, true) }) return { NAME_ALREADY_EXISTS.send(sender); true }()
