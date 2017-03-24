@@ -1,9 +1,6 @@
 package me.camdenorrb.kportals.messages
 
-import org.bukkit.ChatColor.DARK_AQUA
-import org.bukkit.ChatColor.GOLD
-import org.bukkit.ChatColor.GREEN
-import org.bukkit.ChatColor.RED
+import org.bukkit.ChatColor.*
 import org.bukkit.command.CommandSender
 
 /**
@@ -18,9 +15,9 @@ enum class Messages(val message: String) {
 	NAME_ALREADY_EXISTS("${RED}The name you have provided already exists for another portal!");
 
 
-	fun send(sender: CommandSender) = sender.sendMessage(this.toString())
-
 	override fun toString() = message
+
+	fun send(sender: CommandSender) = sender.sendMessage(this.toString())
 
 
 	companion object {
@@ -36,7 +33,7 @@ enum class Messages(val message: String) {
 				"   $DARK_AQUA- /portal -list",
 				"\n${GREEN}Portal Types + Args:",
 				"   ${GOLD}ConsoleCommand - (Command without /  use %player% to represent the player name)",
-				"   ${GOLD}PlayerCommand - (Command without /)",
+				"   ${GOLD}PlayerCommand - (Command without /  use %player% to represent the player name))",
 				"   ${GOLD}Random - (Radius no decimals)",
 				"   ${GOLD}Bungee - (Server name)",
 				"   ${GOLD}World - (World name)",

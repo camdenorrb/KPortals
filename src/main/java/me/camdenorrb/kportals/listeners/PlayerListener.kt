@@ -6,6 +6,8 @@ import me.camdenorrb.kportals.events.PlayerMoveBlockEvent
 import me.camdenorrb.kportals.portal.PortalType.*
 import me.camdenorrb.kportals.position.Position
 import me.camdenorrb.minibus.event.EventWatcher
+import me.camdenorrb.minibus.listener.ListenerPriority
+import me.camdenorrb.minibus.listener.ListenerPriority.*
 import me.camdenorrb.minibus.listener.MiniListener
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor.RED
@@ -29,7 +31,7 @@ class PlayerListener(val kPortals: KPortals) : Listener, MiniListener {
 		event.isCancelled = KPortals.miniBus.fire(PlayerMoveBlockEvent(event.player, fromBlock, toBlock, fromLoc, toLoc)).cancelled
 	}
 
-	@EventWatcher
+	@EventWatcher(priority = LAST)
 	fun onMoveBlock(event: PlayerMoveBlockEvent) {
 
 		if (event.cancelled) return
@@ -44,7 +46,7 @@ class PlayerListener(val kPortals: KPortals) : Listener, MiniListener {
 			World -> player.teleport(Bukkit.getWorld(portal.toArgs)?.spawnLocation ?: return player.sendMessage(portalNotCorrectMsg))
 			Bungee -> KPortals.sendToServer(player, portal.toArgs)
 			Random -> player.teleport(toPos.randomSafePos(portal.toArgs.toIntOrNull() ?: return player.sendMessage(portalNotCorrectMsg)).toLocation())
-			PlayerCommand -> player.chat("/${portal.toArgs}")
+			PlayerCommand -> player.chat("/${portal.toArgs.replace("%player%", player.name)}")
 			ConsoleCommand -> Bukkit.dispatchCommand(kPortals.server.consoleSender, portal.toArgs.replace("%player%", player.name))
 			else -> return
 		}
