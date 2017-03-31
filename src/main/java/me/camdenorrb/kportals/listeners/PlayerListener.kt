@@ -41,6 +41,7 @@ class PlayerListener(val kPortals: KPortals) : Listener, MiniListener {
 
 		if (KPortals.miniBus(PlayerKPortalEnterEvent(player, portal)).cancelled) return
 
+
 		when (portal.type) {
 			World -> player.teleport(Bukkit.getWorld(portal.toArgs)?.spawnLocation ?: return player.sendMessage(portalNotCorrectMsg))
 			Bungee -> KPortals.sendToServer(player, portal.toArgs)
