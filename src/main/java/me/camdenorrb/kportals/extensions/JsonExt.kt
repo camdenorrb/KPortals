@@ -11,4 +11,5 @@ fun Any.toJson(): String = gson.toJson(this)
 
 fun Any.writeJsonTo(file: File) = file.write { it.write(toJson()) }
 
-fun <T : Any> String.readJson(to: Class<T>): T = gson.fromJson(this, to)
+
+inline fun <reified T : Any> String.readJson(): T = gson.fromJson(this, T::class.java)

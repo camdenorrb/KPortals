@@ -21,6 +21,8 @@ import java.util.*
  * Created by camdenorrb on 3/20/17.
  */
 
+// TODO: Link portals
+
 val random = Random()
 
 val gson: Gson = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
@@ -35,7 +37,7 @@ class KPortals : JavaPlugin() {
 	override fun onLoad() {
 		instance = this
 		portalFile = File(dataFolder, "portals.json")
-		portals = portalFile.readJson(Portals::class, Portals()).portals
+		portals = portalFile.readJson(Portals()).portals
 		worldEdit = WorldEditPlugin.getPlugin(WorldEditPlugin::class.java)
 	}
 

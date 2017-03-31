@@ -6,8 +6,7 @@ import me.camdenorrb.kportals.events.PlayerMoveBlockEvent
 import me.camdenorrb.kportals.portal.PortalType.*
 import me.camdenorrb.kportals.position.Position
 import me.camdenorrb.minibus.event.EventWatcher
-import me.camdenorrb.minibus.listener.ListenerPriority
-import me.camdenorrb.minibus.listener.ListenerPriority.*
+import me.camdenorrb.minibus.listener.ListenerPriority.LAST
 import me.camdenorrb.minibus.listener.MiniListener
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor.RED
@@ -22,25 +21,25 @@ import org.bukkit.event.player.PlayerMoveEvent
 class PlayerListener(val kPortals: KPortals) : Listener, MiniListener {
 
 	@EventHandler(ignoreCancelled = true)
-	fun onMove(event: PlayerMoveEvent) {
-		val toLoc = event.to; val fromLoc = event.from
-		val toBlock = toLoc.block; val fromBlock = fromLoc.block
+	fun PlayerMoveEvent.onMove() {
+
+		val toBlock = to.block; val fromBlock = from.block
 
 		if (fromBlock == toBlock) return
 
-		event.isCancelled = KPortals.miniBus.fire(PlayerMoveBlockEvent(event.player, fromBlock, toBlock, fromLoc, toLoc)).cancelled
+		isCancelled = KPortals.miniBus(PlayerMoveBlockEvent(player, fromBlock, toBlock, from, to)).cancelled
+
 	}
 
 	@EventWatcher(priority = LAST)
-	fun onMoveBlock(event: PlayerMoveBlockEvent) {
+	fun PlayerMoveBlockEvent.onMoveBlock() {
 
-		if (event.cancelled) return
+		if (cancelled) return
 
-		val player = event.player
-		val toPos = Position(event.toBlock.location)
+		val toPos = Position(toBlock.location)
 		val portal = kPortals.portals.find { it.positions.any { it == toPos } } ?: return
 
-		if (KPortals.miniBus.fire(PlayerKPortalEnterEvent(player, portal)).cancelled) return
+		if (KPortals.miniBus(PlayerKPortalEnterEvent(player, portal)).cancelled) return
 
 		when (portal.type) {
 			World -> player.teleport(Bukkit.getWorld(portal.toArgs)?.spawnLocation ?: return player.sendMessage(portalNotCorrectMsg))

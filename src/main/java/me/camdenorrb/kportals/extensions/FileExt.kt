@@ -5,7 +5,6 @@ import me.camdenorrb.kportals.gson
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
-import kotlin.reflect.KClass
 
 /**
  * Created by camdenorrb on 3/20/17.
@@ -18,12 +17,12 @@ inline fun File.write(write: (FileWriter) -> Unit) {
 	FileWriter(this).use(write)
 }
 
-inline fun <T : Any> File.readJson(to: KClass<T>, onDoesNotExist: () -> T): T {
+inline fun <reified T : Any> File.readJson(onDoesNotExist: () -> T): T {
 	if (this.exists().not()) return onDoesNotExist()
-	return this.read { gson.fromJson(it, to.java) }
+	return this.read { gson.fromJson(it, T::class.java) }
 }
 
-fun <T : Any> File.readJson(to: KClass<T>, defaultValue: T): T {
+inline fun <reified T : Any> File.readJson(defaultValue: T): T {
 	if (this.exists().not()) return defaultValue.apply { writeJsonTo(this@readJson) }
-	return this.read { gson.fromJson(it, to.java) }
+	return this.read { gson.fromJson(it, T::class.java) }
 }

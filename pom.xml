@@ -7,7 +7,7 @@
 
     <groupId>me.camdenorrb</groupId>
     <artifactId>KPortals</artifactId>
-    <version>Kat1.0.5</version>
+    <version>Kat1.0.6</version>
     <packaging>jar</packaging>
 
     <name>KPortals</name>
@@ -24,7 +24,7 @@
         <plugins>
 
             <plugin>
-                <version>3.6.0</version>
+                <version>3.6.1</version>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
@@ -94,6 +94,14 @@
 
     <dependencies>
 
+        <!-- MiniBus Dependency -->
+        <dependency>
+            <groupId>me.camdenorrb</groupId>
+            <artifactId>MiniBus</artifactId>
+            <version>1.0.2-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
         <!-- Spigot Dependency -->
         <dependency>
             <groupId>org.spigotmc</groupId>
@@ -116,7 +124,6 @@
             <artifactId>kotlin-stdlib-jre8</artifactId>
             <version>${kotlin.version}</version>
             <scope>compile</scope>
-            <type>jar</type>
         </dependency>
 
         <!--Kotlin Reflect dependency-->
@@ -125,7 +132,6 @@
             <artifactId>kotlin-reflect</artifactId>
             <version>${kotlin.version}</version>
             <scope>compile</scope>
-            <type>jar</type>
         </dependency>
 
     </dependencies>
