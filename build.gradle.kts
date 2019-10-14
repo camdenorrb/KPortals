@@ -31,7 +31,7 @@ repositories {
 
 dependencies {
 
-    compileOnly("com.boydti:fawe-api:latest")
+    //compileOnly("com.boydti:fawe-api:latest")
     //compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.0.1")
     compileOnly("org.spigotmc:spigot-api:1.14.4-R0.1-SNAPSHOT")
 
@@ -45,15 +45,17 @@ configure<JavaPluginConvention> {
 
 tasks.withType<ShadowJar> {
     minimize()
-    //relocate("org.jetbrains", "libs.org.jetbrains")
 }
 
-tasks.withType<ConfigureShadowRelocation> {
+task("relocateShadowJar", ConfigureShadowRelocation::class) {
     target = tasks.shadowJar.get()
-    prefix = "KPortals"
+    prefix = "libs"
 }
+
+tasks.shadowJar.get().dependsOn += tasks.named("relocateShadowJar")
+//tasks.shadowJar.get().dependsOn += tasks.relo
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.apiVersion = "1.3"
     kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.apiVersion = "1.3"
 }

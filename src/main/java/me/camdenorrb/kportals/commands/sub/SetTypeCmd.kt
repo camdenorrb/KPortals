@@ -2,7 +2,6 @@ package me.camdenorrb.kportals.commands.sub
 
 import me.camdenorrb.kportals.KPortals
 import me.camdenorrb.kportals.messages.Messages.*
-import me.camdenorrb.kportals.portal.PortalType
 import org.bukkit.ChatColor.*
 import org.bukkit.command.CommandSender
 

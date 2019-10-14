@@ -1,19 +1,13 @@
 package me.camdenorrb.kportals.position
 
 import com.sk89q.worldedit.math.BlockVector3
-import me.camdenorrb.kportals.KPortals
-import me.camdenorrb.kportals.iterator.PositionProgression
-import org.bukkit.Bukkit
-import org.bukkit.Location
-import org.bukkit.World
-import kotlin.math.floor
-import kotlin.random.Random
 
 /**
  * Created by camdenorrb on 3/20/17.
  */
 
 // TODO: Just use vectors like a normal huemin, maybe with type alias
+/*
 data class Position(val x: Double = 0.0, val y: Double = 0.0, val z: Double = 0.0, val yaw: Float = 0.0F, val pitch: Float = 0.0F, val worldName: String = "world") {
 
 	constructor(x: Int = 0, y: Int = 0, z: Int = 0, worldName: String = "world") : this(x.toDouble(), y.toDouble(), z.toDouble(), worldName = worldName)
@@ -46,4 +40,4 @@ data class Position(val x: Double = 0.0, val y: Double = 0.0, val z: Double = 0.
 		return Position(randomX, randomY, randomZ, worldName)
 	}
 
-}
+}*/

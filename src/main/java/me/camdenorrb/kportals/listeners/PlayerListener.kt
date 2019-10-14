@@ -3,7 +3,6 @@ package me.camdenorrb.kportals.listeners
 import me.camdenorrb.kportals.KPortals
 import me.camdenorrb.kportals.events.PlayerKPortalEnterEvent
 import me.camdenorrb.kportals.events.PlayerMoveBlockEvent
-import me.camdenorrb.kportals.portal.PortalType.*
 import me.camdenorrb.kportals.position.Position
 import me.camdenorrb.minibus.event.EventWatcher
 import me.camdenorrb.minibus.listener.ListenerPriority.LAST
@@ -18,19 +17,21 @@ import org.bukkit.event.player.PlayerMoveEvent
  * Created by camdenorrb on 3/20/17.
  */
 
-class PlayerListener(val kPortals: KPortals) : Listener, MiniListener {
+class PlayerListener(val plugin: KPortals) : Listener, MiniListener {
 
 	@EventHandler(ignoreCancelled = true)
-	fun PlayerMoveEvent.onMove() {
+	fun onMove(event: PlayerMoveEvent) {
 
-		val to = this.to ?: return
+		val from = event.from
+		val to = event.to ?: return
 
-		val toBlock = to.block; val fromBlock = from.block
+		val fromBlock = from.block
+		val toBlock = to.block
 
 		if (fromBlock == toBlock) return
 
-		isCancelled = KPortals.miniBus(PlayerMoveBlockEvent(player, fromBlock, toBlock, from, to)).isCancelled
-
+		val moveBlockEvent = PlayerMoveBlockEvent(event.player, fromBlock, toBlock, from, to)
+		event.isCancelled = plugin.miniBus(moveBlockEvent).isCancelled
 	}
 
 	@EventWatcher(priority = LAST)
@@ -38,18 +39,18 @@ class PlayerListener(val kPortals: KPortals) : Listener, MiniListener {
 
 		if (isCancelled) return
 
-		val toPos = Position(toBlock.location)
-		val portal = kPortals.portals.find { it.positions.any { it == toPos } } ?: return
+		val toLoc = toBlock.location
+		val portal = plugin.portals.find { it.positions.any { it == toLoc } } ?: return
 
-		if (KPortals.miniBus(PlayerKPortalEnterEvent(player, portal)).isCancelled) return
+		if (plugin.miniBus(PlayerKPortalEnterEvent(player, portal)).isCancelled) return
 
 
 		when (portal.type) {
 			World -> player.teleport(Bukkit.getWorld(portal.toArgs)?.spawnLocation ?: return player.sendMessage(portalNotCorrectMsg))
 			Bungee -> KPortals.sendToServer(player, portal.toArgs)
-			Random -> player.teleport(toPos.randomSafePos(portal.toArgs.toIntOrNull() ?: return player.sendMessage(portalNotCorrectMsg)).toLocation())
+			Random -> player.teleport(toLoc.randomSafePos(portal.toArgs.toIntOrNull() ?: return player.sendMessage(portalNotCorrectMsg)).toLocation())
 			PlayerCommand -> player.chat("/${portal.toArgs.replace("%player%", player.name)}")
-			ConsoleCommand -> Bukkit.dispatchCommand(kPortals.server.consoleSender, portal.toArgs.replace("%player%", player.name))
+			ConsoleCommand -> Bukkit.dispatchCommand(plugin.server.consoleSender, portal.toArgs.replace("%player%", player.name))
 			else -> return
 		}
 

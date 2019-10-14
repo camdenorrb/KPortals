@@ -6,8 +6,7 @@ import com.google.gson.GsonBuilder
 import com.sk89q.worldedit.WorldEdit
 import me.camdenorrb.kportals.commands.PortalCmd
 import me.camdenorrb.kportals.commands.sub.*
-import me.camdenorrb.kportals.extensions.readJson
-import me.camdenorrb.kportals.extensions.writeJsonTo
+import me.camdenorrb.kportals.ext.readJson
 import me.camdenorrb.kportals.listeners.PlayerListener
 import me.camdenorrb.kportals.portal.Portal
 import me.camdenorrb.kportals.portal.Portals
@@ -22,26 +21,31 @@ import java.io.File
 
 // TODO: Link portals
 
-val gson: Gson = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
-
 class KPortals : JavaPlugin() {
 
-	lateinit var portals: MutableList<Portal>
+	val miniBus: MiniBus = MiniBus()
 
 	val subCmds = mutableSetOf(CreatePortalCmd(), RemovePortalCmd(), ListPortalCmd(), SetArgsCmd(), SetTypeCmd(), TypeCmd(), ArgsCmd())
+
+
+	lateinit var portals: MutableList<Portal>
+		private set
+
+	lateinit var portalFile: File
+		private set
+
 
 
 	override fun onLoad() {
 		instance = this
 		portalFile = File(dataFolder, "portals.json")
 		portals = portalFile.readJson(Portals()).portals
-		worldEdit = WorldEdit.getInstance()
 	}
 
 	override fun onEnable() {
 
 		// Register the main command.
-		getCommand("portal")?.setExecutor(PortalCmd(this))
+		getCommand("portal")!!.setExecutor(PortalCmd(this))
 
 		// Register PlayerListener
 		val playerListener = PlayerListener(this)
@@ -65,16 +69,8 @@ class KPortals : JavaPlugin() {
 		lateinit var instance: KPortals
 			private set
 
-		lateinit var worldEdit: WorldEdit
-			private set
 
-		lateinit var portalFile: File
-			private set
-
-
-		val miniBus: MiniBus = MiniBus()
-
-
+		/*
 		fun sendToServer(player: Player, toServer: String) {
 
 			val out = ByteStreams.newDataOutput().apply {
@@ -84,6 +80,7 @@ class KPortals : JavaPlugin() {
 
 			player.sendPluginMessage(instance, "BungeeCord", out.toByteArray())
 		}
+		*/
 
 	}
 }

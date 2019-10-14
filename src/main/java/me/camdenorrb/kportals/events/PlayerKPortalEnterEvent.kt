@@ -1,7 +1,6 @@
 package me.camdenorrb.kportals.events
 
 import me.camdenorrb.kportals.portal.Portal
-import me.camdenorrb.kportals.portal.PortalType
 import org.bukkit.entity.Player
 
 /**

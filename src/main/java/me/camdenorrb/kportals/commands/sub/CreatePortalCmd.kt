@@ -5,7 +5,6 @@ import me.camdenorrb.kportals.KPortals
 import me.camdenorrb.kportals.messages.Messages.NAME_ALREADY_EXISTS
 import me.camdenorrb.kportals.messages.Messages.NO_SELECTION
 import me.camdenorrb.kportals.portal.Portal
-import me.camdenorrb.kportals.portal.PortalType
 import me.camdenorrb.kportals.position.Position
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor.DARK_GREEN

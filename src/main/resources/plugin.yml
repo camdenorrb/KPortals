@@ -4,7 +4,6 @@ version: ${project.version}
 main: me.camdenorrb.kportals.KPortals
 
 prefix: KPortals
-depends: [WorldEdit, FastAsyncWorldEdit]
 description: A kat made portal plugin
 
 commands:
