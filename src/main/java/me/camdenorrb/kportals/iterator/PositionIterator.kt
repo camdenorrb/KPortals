@@ -6,6 +6,15 @@ import me.camdenorrb.kportals.position.Position
  * Created by camdenorrb on 3/20/17.
  */
 
+// This whole thing could be a simple sequence...
+
+/*
+sequence {
+    for (i in 0..x)
+        for (i in 0..y)
+            yield(Pos(x, y, z))
+}
+*/
 class PositionProgression(val start: Position, val end: Position, var step: Int = 1) : Iterable<Position> {
 
 	override fun iterator() = PositionIterator(start, end, step)

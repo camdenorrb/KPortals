@@ -13,7 +13,7 @@ import java.io.FileWriter
 inline fun <R> File.read(reader: (FileReader) -> R): R = FileReader(this).use { reader(it) }
 
 inline fun File.write(write: (FileWriter) -> Unit) {
-	if (this.parentFile.exists().not()) Files.createParentDirs(this)
+	Files.createParentDirs(this)
 	FileWriter(this).use(write)
 }
 

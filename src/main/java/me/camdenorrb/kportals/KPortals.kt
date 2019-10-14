@@ -3,7 +3,7 @@ package me.camdenorrb.kportals
 import com.google.common.io.ByteStreams
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.sk89q.worldedit.bukkit.WorldEditPlugin
+import com.sk89q.worldedit.WorldEdit
 import me.camdenorrb.kportals.commands.PortalCmd
 import me.camdenorrb.kportals.commands.sub.*
 import me.camdenorrb.kportals.extensions.readJson
@@ -35,13 +35,13 @@ class KPortals : JavaPlugin() {
 		instance = this
 		portalFile = File(dataFolder, "portals.json")
 		portals = portalFile.readJson(Portals()).portals
-		worldEdit = WorldEditPlugin.getPlugin(WorldEditPlugin::class.java)
+		worldEdit = WorldEdit.getInstance()
 	}
 
 	override fun onEnable() {
 
 		// Register the main command.
-		getCommand("portal").executor = PortalCmd(this)
+		getCommand("portal")?.setExecutor(PortalCmd(this))
 
 		// Register PlayerListener
 		val playerListener = PlayerListener(this)
@@ -65,7 +65,7 @@ class KPortals : JavaPlugin() {
 		lateinit var instance: KPortals
 			private set
 
-		lateinit var worldEdit: WorldEditPlugin
+		lateinit var worldEdit: WorldEdit
 			private set
 
 		lateinit var portalFile: File

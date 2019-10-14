@@ -23,23 +23,25 @@ class PlayerListener(val kPortals: KPortals) : Listener, MiniListener {
 	@EventHandler(ignoreCancelled = true)
 	fun PlayerMoveEvent.onMove() {
 
+		val to = this.to ?: return
+
 		val toBlock = to.block; val fromBlock = from.block
 
 		if (fromBlock == toBlock) return
 
-		isCancelled = KPortals.miniBus(PlayerMoveBlockEvent(player, fromBlock, toBlock, from, to)).cancelled
+		isCancelled = KPortals.miniBus(PlayerMoveBlockEvent(player, fromBlock, toBlock, from, to)).isCancelled
 
 	}
 
 	@EventWatcher(priority = LAST)
 	fun PlayerMoveBlockEvent.onMoveBlock() {
 
-		if (cancelled) return
+		if (isCancelled) return
 
 		val toPos = Position(toBlock.location)
 		val portal = kPortals.portals.find { it.positions.any { it == toPos } } ?: return
 
-		if (KPortals.miniBus(PlayerKPortalEnterEvent(player, portal)).cancelled) return
+		if (KPortals.miniBus(PlayerKPortalEnterEvent(player, portal)).isCancelled) return
 
 
 		when (portal.type) {

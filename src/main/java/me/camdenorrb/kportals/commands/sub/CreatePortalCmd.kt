@@ -1,14 +1,17 @@
 package me.camdenorrb.kportals.commands.sub
 
-import com.sk89q.worldedit.bukkit.selections.CuboidSelection
+import com.boydti.fawe.FaweAPI
 import me.camdenorrb.kportals.KPortals
-import me.camdenorrb.kportals.messages.Messages.*
+import me.camdenorrb.kportals.messages.Messages.NAME_ALREADY_EXISTS
+import me.camdenorrb.kportals.messages.Messages.NO_SELECTION
 import me.camdenorrb.kportals.portal.Portal
 import me.camdenorrb.kportals.portal.PortalType
 import me.camdenorrb.kportals.position.Position
 import org.bukkit.Bukkit
-import org.bukkit.ChatColor.*
-import org.bukkit.Material.*
+import org.bukkit.ChatColor.DARK_GREEN
+import org.bukkit.ChatColor.LIGHT_PURPLE
+import org.bukkit.Material.EMERALD_BLOCK
+import org.bukkit.Material.REDSTONE_BLOCK
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -23,14 +26,21 @@ class CreatePortalCmd : SubCmd("-create", "/Portal -create <Name> <Type> <ToArg>
 		if (sender !is Player || args.size < 3) return false
 
 		val name = args.removeAt(0)
-		if (kPortals.portals.any { it.name.equals(name, true) }) return { NAME_ALREADY_EXISTS.send(sender); true }()
+
+		if (kPortals.portals.any { it.name.equals(name, true) }) {
+			NAME_ALREADY_EXISTS.send(sender)
+			return true
+		}
 
 		val type = PortalType.byName(args.removeAt(0)) ?: return false
-		val selection = KPortals.worldEdit.getSelection(sender)
+		val selection = FaweAPI.wrapPlayer(sender).selection
 		
-		if (selection == null || selection !is CuboidSelection) return { NO_SELECTION.send(sender); true }()
+		if (selection == null) {
+			NO_SELECTION.send(sender)
+			return true
+		}
 
-		val portalSelection = getPortalIn(Position(selection.minimumPoint), Position(selection.maximumPoint))
+		val portalSelection = getPortalIn(Position(selection.minimumPoint, sender.world.name), Position(selection.maximumPoint, sender.world.name))
 
 		kPortals.portals.add(Portal(name, args.joinToString(" "), type, portalSelection))
 		sender.sendMessage("${DARK_GREEN}You have successfully claimed the portal with the name: $LIGHT_PURPLE$name ${DARK_GREEN}and the type $LIGHT_PURPLE$type$DARK_GREEN!")
@@ -43,7 +53,7 @@ class CreatePortalCmd : SubCmd("-create", "/Portal -create <Name> <Type> <ToArg>
 
 		val returnSet = mutableSetOf<Position>()
 
-		val world = Bukkit.getWorld(minPos.worldName)
+		val world = Bukkit.getWorld(minPos.worldName)!!
 
 		for (x in minPos..maxPos) {
 
