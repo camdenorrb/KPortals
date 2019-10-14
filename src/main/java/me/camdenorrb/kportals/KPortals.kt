@@ -15,15 +15,12 @@ import me.camdenorrb.minibus.MiniBus
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
-import java.util.*
 
 /**
  * Created by camdenorrb on 3/20/17.
  */
 
 // TODO: Link portals
-
-val random = Random()
 
 val gson: Gson = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
 
@@ -74,13 +71,16 @@ class KPortals : JavaPlugin() {
 		lateinit var portalFile: File
 			private set
 
+
 		val miniBus: MiniBus = MiniBus()
 
 
 		fun sendToServer(player: Player, toServer: String) {
-			val out = ByteStreams.newDataOutput()
-			out.writeUTF("Connect")
-			out.writeUTF(toServer)
+
+			val out = ByteStreams.newDataOutput().apply {
+				writeUTF("Connect")
+				writeUTF(toServer)
+			}
 
 			player.sendPluginMessage(instance, "BungeeCord", out.toByteArray())
 		}
