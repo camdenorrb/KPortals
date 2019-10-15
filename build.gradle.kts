@@ -36,6 +36,8 @@ dependencies {
     compileOnly("org.spigotmc:spigot-api:1.14.4-R0.1-SNAPSHOT")
 
     implementation(kotlin("stdlib-jdk8"))
+    implementation("com.sxtanna.korm:Korm:+")
+    implementation("com.github.camdenorrb:KCommons:V1.0.8")
     implementation("com.github.MiniMineCraft:MiniBus:V1.2.7")
 }
 
