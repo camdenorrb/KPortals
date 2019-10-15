@@ -15,7 +15,7 @@ import org.bukkit.command.TabExecutor
 class PortalCmd(val plugin: KPortals) : TabExecutor {
 
 	override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): List<String> {
-		return plugin.subCmds.map { it.arg }
+		return if (args.size == 1) plugin.subCmds.map { it.arg } else emptyList()
 	}
 
 	override fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<out String>): Boolean {

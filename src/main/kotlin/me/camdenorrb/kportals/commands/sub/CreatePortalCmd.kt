@@ -68,6 +68,10 @@ class CreatePortalCmd : SubCmd("-create", "/Portal -create <Name> <Type> <ToArg>
 		}
 
 		plugin.portals.add(Portal(portalName, portalArgs, world.uid, portalType, portalVectors))
+
+		plugin.portalsFile.parentFile?.mkdirs()
+		plugin.portalsFile.createNewFile()
+
 		plugin.korm.push(plugin.portals, plugin.portalsFile)
 
 		sender.sendMessage("${DARK_GREEN}You have successfully claimed the portal with the name: $LIGHT_PURPLE$portalName ${DARK_GREEN}and the type $LIGHT_PURPLE$portalType$DARK_GREEN!")

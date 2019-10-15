@@ -25,6 +25,7 @@ enum class Messages(val message: String) {
 	companion object {
 
 		// This could just be a """ """ aka a raw string
+		// TODO: Make this more reactive
 		val help = arrayOf(
 				"\n${GREEN}Commands:",
 				"   $DARK_AQUA- /portal -create <Name> <Type> <Arguments>",

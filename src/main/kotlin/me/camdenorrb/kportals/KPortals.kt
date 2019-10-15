@@ -49,7 +49,7 @@ class KPortals : JavaPlugin() {
 		itemMeta = itemMeta?.apply {
 			displayName = "${ChatColor.AQUA}Portal Selection Item"
 			lore = listOf("KPortals")
-			addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
+			addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE)
 			spigot().isUnbreakable = true // To allow us to use .equals since it checks durability
 		}
 	}
