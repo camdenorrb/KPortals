@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender
 
 class TypeCmd : SubCmd("-type", "/Portal -type <PortalName>", "kportals.type") {
 
-	override fun execute(sender: CommandSender, plugin: KPortals, args: MutableList<String>): Boolean {
+	override fun execute(sender: CommandSender, plugin: KPortals, args: List<String>): Boolean {
 
 		if (args.isEmpty()) return false
 

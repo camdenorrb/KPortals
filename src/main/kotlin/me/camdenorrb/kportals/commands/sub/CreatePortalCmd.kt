@@ -1,18 +1,20 @@
 package me.camdenorrb.kportals.commands.sub
 
-import com.boydti.fawe.FaweAPI
 import me.camdenorrb.kportals.KPortals
-import me.camdenorrb.kportals.messages.Messages.NAME_ALREADY_EXISTS
-import me.camdenorrb.kportals.messages.Messages.NO_SELECTION
+import me.camdenorrb.kportals.ext.sequenceTo
+import me.camdenorrb.kportals.messages.Messages
+import me.camdenorrb.kportals.messages.Messages.*
 import me.camdenorrb.kportals.portal.Portal
-import me.camdenorrb.kportals.position.Position
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor.DARK_GREEN
 import org.bukkit.ChatColor.LIGHT_PURPLE
 import org.bukkit.Material.EMERALD_BLOCK
 import org.bukkit.Material.REDSTONE_BLOCK
+import org.bukkit.World
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import org.bukkit.util.Vector
+import kotlin.math.max
 
 /**
  * Created by camdenorrb on 3/20/17.
@@ -27,50 +29,54 @@ class CreatePortalCmd : SubCmd("-create", "/Portal -create <Name> <Type> <ToArg>
 		}
 
 		val portalName = args[0]
-		val portalType = args[1]
+		val portalType = Portal.Type.byName(args[1])
+		val portalArgs = args.drop(2).joinToString(" ")
+
+		if (portalType == null) {
+			TYPE_DOES_NOT_EXIST.send(sender)
+			return true
+		}
 
 		if (plugin.portals.any { it.name.equals(portalName, true) }) {
 			NAME_ALREADY_EXISTS.send(sender)
 			return true
 		}
 
-		val type = Portal.Type.byName()plugin.portals.find { it.name ==  }.byName(args.removeAt(0)) ?: return false
-		val selection = FaweAPI.wrapPlayer(sender).selection
-		
-		if (selection == null) {
+		val selection = plugin.selectionCache[sender]
+
+		if (selection == null || !selection.isSelected) {
 			NO_SELECTION.send(sender)
 			return true
 		}
 
-		val portalSelection = getPortalIn(Position(selection.minimumPoint, sender.world.name), Position(selection.maximumPoint, sender.world.name))
+		val sel1 = selection.sel1!!.toVector()
+		val sel2 = selection.sel2!!.toVector()
 
-		plugin.portals.add(Portal(name, args.joinToString(" "), type, portalSelection))
-		plugin.korm.push(plugin.portals, plugin.portalsFile)
+		val min = Vector.getMinimum(sel1, sel2)
+		val max = Vector.getMinimum(sel1, sel2)
 
-		sender.sendMessage("${DARK_GREEN}You have successfully claimed the portal with the name: $LIGHT_PURPLE$name ${DARK_GREEN}and the type $LIGHT_PURPLE$type$DARK_GREEN!")
+		val world = sender.world
 
-		return true
-	}
-
-
-	private fun getPortalIn(minPos: Position, maxPos: Position): MutableSet<Position> {
-
-		val returnSet = mutableSetOf<Position>()
-
-		val world = Bukkit.getWorld(minPos.worldName)!!
-
-		for (x in minPos..maxPos) {
-
-			val block = x.toLocation(world).block
-
-			if (block.type == REDSTONE_BLOCK) {
-				block.type = EMERALD_BLOCK
-				returnSet.add(x)
-			}
-
+		val portalVectors = min.sequenceTo(max).filterTo(HashSet()) {
+			world.getBlockAt(it.blockX, it.blockY, it.blockZ).type == REDSTONE_BLOCK
 		}
 
-		return returnSet
+		if (portalVectors.isEmpty()) {
+			SELECTION_EMPTY.send(sender)
+			return true
+		}
+
+		// Definitely could be just one iteration, but eh
+		portalVectors.forEach {
+			world.getBlockAt(it.blockX, it.blockY, it.blockZ).type = EMERALD_BLOCK
+		}
+
+		plugin.portals.add(Portal(portalName, portalArgs, world.uid, portalType, portalVectors))
+		plugin.korm.push(plugin.portals, plugin.portalsFile)
+
+		sender.sendMessage("${DARK_GREEN}You have successfully claimed the portal with the name: $LIGHT_PURPLE$portalName ${DARK_GREEN}and the type $LIGHT_PURPLE$portalType$DARK_GREEN!")
+
+		return true
 	}
 
 }

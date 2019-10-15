@@ -16,6 +16,7 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
+import java.util.*
 
 /**
  * Created by camdenorrb on 3/20/17.
@@ -33,7 +34,7 @@ class KPortals : JavaPlugin() {
 
 	val subCmds = mutableSetOf(CreatePortalCmd(), RemovePortalCmd(), ListPortalCmd(), SetArgsCmd(), SetTypeCmd(), SelectCmd(), TypeCmd(), ArgsCmd())
 
-	lateinit var portals: MutableList<Portal>
+	lateinit var portals: MutableSet<Portal>
 		private set
 
 	val portalsFile by lazy {
@@ -42,9 +43,7 @@ class KPortals : JavaPlugin() {
 
 	val selectionItem = ItemStack(Material.WOODEN_PICKAXE).apply {
 		itemMeta = itemMeta?.apply {
-
 			setDisplayName("${ChatColor.AQUA}Portal Selection Item")
-
 			lore = listOf("KPortals")
 			isUnbreakable = true // To allow us to use .equals since it checks durability
 		}
@@ -57,8 +56,20 @@ class KPortals : JavaPlugin() {
 
 		val legacyPortalFile = File(dataFolder, "portals.json")
 
+		// If legacy
 		if (!portalsFile.exists() && legacyPortalFile.exists()) {
-			portals = legacyPortalFile.readJson(LegacyPortal.Portals()).portals
+
+			portals = legacyPortalFile.readJson(LegacyPortal.Portals()).portals.mapNotNull { legacyPortal ->
+
+				val modernPortal = legacyPortal.modernize()
+
+				if (modernPortal == null) {
+					println("Could not modernize ${legacyPortal.name}!")
+				}
+
+				modernPortal
+			}.toMutableSet()
+
 			korm.push(portals, portalsFile)
 		}
 		else if (portalsFile.exists()) {
@@ -80,6 +91,7 @@ class KPortals : JavaPlugin() {
 		// Enable BungeeCord plugin channel.
 		server.messenger.registerOutgoingPluginChannel(this, "BungeeCord")
 
+		// Enable modules
 		selectionCache.enable()
 	}
 

@@ -7,7 +7,7 @@ import org.bukkit.entity.Player
 
 class SelectCmd : SubCmd("-select", "/Portal -select", "kportals.select") {
 
-    override fun execute(sender: CommandSender, plugin: KPortals, args: MutableList<String>): Boolean {
+    override fun execute(sender: CommandSender, plugin: KPortals, args: List<String>): Boolean {
 
         if (sender !is Player) {
             sender.sendMessage("${ChatColor.RED}You must be a player to select a portal!")

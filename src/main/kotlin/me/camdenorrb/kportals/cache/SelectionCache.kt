@@ -4,6 +4,7 @@ import me.camdenorrb.kcommons.base.ModuleBase
 import me.camdenorrb.kportals.KPortals
 import me.camdenorrb.kportals.portal.Portal
 import org.bukkit.ChatColor
+import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.HandlerList
 import org.bukkit.event.Listener
@@ -76,5 +77,15 @@ class SelectionCache(val plugin: KPortals) : ModuleBase, Listener {
     fun onQuit(event: PlayerQuitEvent) {
         selections.remove(event.player.uniqueId)
     }
+
+
+    operator fun get(key: Player): Portal.Selection? {
+        return get(key.uniqueId)
+    }
+
+    operator fun get(key: UUID): Portal.Selection? {
+        return selections[key]
+    }
+
 
 }

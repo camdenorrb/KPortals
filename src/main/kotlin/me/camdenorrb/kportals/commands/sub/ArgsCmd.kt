@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender
 
 class ArgsCmd : SubCmd("-args", "/Portal -args <PortalName>", "kportals.args") {
 
-	override fun execute(sender: CommandSender, plugin: KPortals, args: MutableList<String>): Boolean {
+	override fun execute(sender: CommandSender, plugin: KPortals, args: List<String>): Boolean {
 
 		if (args.isEmpty()) return false
 
@@ -21,7 +21,7 @@ class ArgsCmd : SubCmd("-args", "/Portal -args <PortalName>", "kportals.args") {
 				?: return { PORTAL_NOT_FOUND.send(sender); true }()
 
 
-		sender.sendMessage("${DARK_GREEN}The arguments of the portal: ${ChatColor.AQUA}${portal.name}$DARK_GREEN, is { $LIGHT_PURPLE${portal.toArgs} $DARK_GREEN}!")
+		sender.sendMessage("${DARK_GREEN}The arguments of the portal: $AQUA${portal.name}$DARK_GREEN, is { $LIGHT_PURPLE${portal.toArgs} $DARK_GREEN}!")
 		return true
 	}
 

@@ -1,6 +1,7 @@
 package me.camdenorrb.kportals.ext
 
 import org.bukkit.Location
+import org.bukkit.util.Vector
 import kotlin.random.Random
 
 fun Location.randomSafeLoc(radius: Int): Location {

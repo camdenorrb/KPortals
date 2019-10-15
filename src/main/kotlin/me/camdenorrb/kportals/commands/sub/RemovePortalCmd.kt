@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender
 
 class RemovePortalCmd : SubCmd("-remove", "/Portal -remove <Name>", "kportals.remove") {
 
-	override fun execute(sender: CommandSender, plugin: KPortals, args: MutableList<String>): Boolean {
+	override fun execute(sender: CommandSender, plugin: KPortals, args: List<String>): Boolean {
 
 		if (args.isEmpty()) return false
 

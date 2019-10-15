@@ -6,7 +6,6 @@ import java.io.File
 
 // Json for legacy support
 
-
 @PublishedApi
 internal val gson by lazy {
     GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()

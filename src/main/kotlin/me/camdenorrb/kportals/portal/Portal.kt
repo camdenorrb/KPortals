@@ -14,7 +14,7 @@ data class Portal(
     var toArgs: String,
     val worldUUID: UUID,
     var type: Type = Type.Unknown,
-    val positions: MutableSet<Vector> = mutableSetOf()
+    val positions: Set<Vector> = setOf()
 ) {
 
 

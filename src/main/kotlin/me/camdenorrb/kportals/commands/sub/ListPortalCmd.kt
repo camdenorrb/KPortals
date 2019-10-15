@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender
 
 class ListPortalCmd : SubCmd("-list", "/Portal -list", "kportals.list") {
 
-	override fun execute(sender: CommandSender, plugin: KPortals, args: MutableList<String>): Boolean {
+	override fun execute(sender: CommandSender, plugin: KPortals, args: List<String>): Boolean {
 		sender.sendMessage("${GREEN}Portals: { $LIGHT_PURPLE${plugin.portals.joinToString { it.name }} $GREEN}")
 		return true
 	}

@@ -10,8 +10,9 @@ import org.bukkit.command.CommandSender
 enum class Messages(val message: String) {
 
 	PORTAL_NOT_FOUND("${RED}Portal not found!"),
-	TYPE_DOES_NOT_EXIST("${RED}Type does not exist!"),
+	TYPE_DOES_NOT_EXIST("${RED}Portal type does not exist!"),
 	NO_SELECTION("${RED}You have no WorldEdit selection of the portal!"),
+	SELECTION_EMPTY("${RED}The portal you selected is empty, make sure you're in the same world as the portal selected!"),
 	NAME_ALREADY_EXISTS("${RED}The name you have provided already exists for another portal!");
 
 

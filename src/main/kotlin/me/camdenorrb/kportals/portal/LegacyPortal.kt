@@ -1,6 +1,8 @@
 package me.camdenorrb.kportals.portal
 
+import org.bukkit.Bukkit
 import org.bukkit.Location
+import org.bukkit.util.Vector
 
 // TODO: Read this from json to convert to Korm
 data class LegacyPortal(
@@ -9,6 +11,16 @@ data class LegacyPortal(
     var type: Type = Type.Unknown,
     val positions: MutableSet<Position> = mutableSetOf()
 ) {
+
+    fun modernize(): Portal? {
+
+        // Returns null if can't get the world UUID
+        val worldUUID = positions.firstOrNull()?.worldName?.let { Bukkit.getWorld(it) }?.uid ?: return null
+        val modernType = Portal.Type.byName(type.name) ?: return null
+        val vectors = positions.map { Vector(it.x, it.y, it.z) }
+
+        return Portal(name, toArgs, worldUUID, modernType, vectors.toSet())
+    }
 
     // Retyped here to ensure legacy support
     enum class Type {
@@ -32,6 +44,6 @@ data class LegacyPortal(
 
     }
 
-    data class Portals(val portals: MutableList<Portal> = mutableListOf())
+    data class Portals(val portals: MutableList<LegacyPortal> = mutableListOf())
 
 }

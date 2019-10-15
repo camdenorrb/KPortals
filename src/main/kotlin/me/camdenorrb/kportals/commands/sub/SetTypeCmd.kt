@@ -14,7 +14,7 @@ import org.bukkit.command.CommandSender
 
 class SetTypeCmd : SubCmd("-setType", "/Portal -setType <Name> <Type>", "kportals.setType") {
 
-	override fun execute(sender: CommandSender, plugin: KPortals, args: MutableList<String>): Boolean {
+	override fun execute(sender: CommandSender, plugin: KPortals, args: List<String>): Boolean {
 
 		if (args.size != 2) return false
 
