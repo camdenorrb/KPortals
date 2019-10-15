@@ -12,9 +12,9 @@ data class LegacyPortal(
     val positions: MutableSet<Position> = mutableSetOf()
 ) {
 
+    // Returns null if unable to modernize, TODO: Make this a result
     fun modernize(): Portal? {
 
-        // Returns null if can't get the world UUID
         val worldUUID = positions.firstOrNull()?.worldName?.let { Bukkit.getWorld(it) }?.uid ?: return null
         val modernType = Portal.Type.byName(type.name) ?: return null
         val vectors = positions.map { Vector(it.x, it.y, it.z) }

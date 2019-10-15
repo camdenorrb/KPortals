@@ -3,7 +3,7 @@ package me.camdenorrb.kportals.listeners
 import me.camdenorrb.kportals.KPortals
 import me.camdenorrb.kportals.events.PlayerKPortalEnterEvent
 import me.camdenorrb.kportals.events.PlayerMoveBlockEvent
-import me.camdenorrb.kportals.ext.randomSafeLoc
+import me.camdenorrb.kportals.ext.teleportToRandomLoc
 import me.camdenorrb.kportals.portal.Portal
 import me.camdenorrb.minibus.event.EventWatcher
 import me.camdenorrb.minibus.listener.ListenerPriority.LAST
@@ -17,7 +17,6 @@ import org.bukkit.event.player.PlayerMoveEvent
 /**
  * Created by camdenorrb on 3/20/17.
  */
-
 class PlayerListener(val plugin: KPortals) : Listener, MiniListener {
 
 	@EventHandler(ignoreCancelled = true)
@@ -41,18 +40,24 @@ class PlayerListener(val plugin: KPortals) : Listener, MiniListener {
 		if (event.isCancelled) return
 
 		val player = event.player
-		val toLoc = event.toBlock.location
+		val toVec = event.toBlock.location.toVector()
 
 		val portal = plugin.portals.find { portal ->
-			portal.positions.any { it == toLoc }
+
+			if (toVec.distance(portal.center).toInt() > portal.maxRadius) {
+				return@find false
+			}
+
+			portal.positions.any { it == toVec }
 		} ?: return
 
 		if (plugin.miniBus(PlayerKPortalEnterEvent(player, portal)).isCancelled) return
 
+		println("Here0")
 		when (portal.type) {
 			Portal.Type.World -> player.teleport(Bukkit.getWorld(portal.toArgs)?.spawnLocation ?: return player.sendMessage(portalNotCorrectMsg))
 			Portal.Type.Bungee -> plugin.sendPlayerToServer(player, portal.toArgs)
-			Portal.Type.Random -> player.teleport(toLoc.randomSafeLoc(portal.toArgs.toIntOrNull() ?: return player.sendMessage(portalNotCorrectMsg)))
+			Portal.Type.Random -> player.teleportToRandomLoc(portal.toArgs.toIntOrNull() ?: return player.sendMessage(portalNotCorrectMsg))
 			Portal.Type.PlayerCommand -> player.chat("/${portal.toArgs.replace("%player%", player.name)}")
 			Portal.Type.ConsoleCommand -> Bukkit.dispatchCommand(plugin.server.consoleSender, portal.toArgs.replace("%player%", player.name))
 			else -> return

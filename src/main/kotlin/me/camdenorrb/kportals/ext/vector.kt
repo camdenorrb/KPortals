@@ -7,6 +7,8 @@ fun Vector.sequenceTo(toVec: Vector): Sequence<Vector> {
 
     val thisVec = this
 
+    println("$thisVec -> $toVec")
+
     return sequence {
         for (x in thisVec.blockX..toVec.blockX) {
             for (y in thisVec.blockY..toVec.blockY) {

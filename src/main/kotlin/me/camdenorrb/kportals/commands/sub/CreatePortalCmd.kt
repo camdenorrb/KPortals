@@ -2,19 +2,15 @@ package me.camdenorrb.kportals.commands.sub
 
 import me.camdenorrb.kportals.KPortals
 import me.camdenorrb.kportals.ext.sequenceTo
-import me.camdenorrb.kportals.messages.Messages
 import me.camdenorrb.kportals.messages.Messages.*
 import me.camdenorrb.kportals.portal.Portal
-import org.bukkit.Bukkit
 import org.bukkit.ChatColor.DARK_GREEN
 import org.bukkit.ChatColor.LIGHT_PURPLE
 import org.bukkit.Material.EMERALD_BLOCK
 import org.bukkit.Material.REDSTONE_BLOCK
-import org.bukkit.World
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
-import kotlin.math.max
 
 /**
  * Created by camdenorrb on 3/20/17.
@@ -53,7 +49,7 @@ class CreatePortalCmd : SubCmd("-create", "/Portal -create <Name> <Type> <ToArg>
 		val sel2 = selection.sel2!!.toVector()
 
 		val min = Vector.getMinimum(sel1, sel2)
-		val max = Vector.getMinimum(sel1, sel2)
+		val max = Vector.getMaximum(sel1, sel2)
 
 		val world = sender.world
 

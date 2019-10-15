@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.HandlerList
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
+import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.EquipmentSlot
@@ -49,6 +50,7 @@ class SelectionCache(val plugin: KPortals) : ModuleBase, Listener {
     fun onHitBlock(event: PlayerInteractEvent) {
 
         // We don't want offhand events nor ones not for selection
+
         if (event.hand != EquipmentSlot.HAND || event.item != plugin.selectionItem) {
             return
         }
@@ -71,6 +73,11 @@ class SelectionCache(val plugin: KPortals) : ModuleBase, Listener {
 
             else -> return
         }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    fun onBreakBlock(event: BlockBreakEvent) {
+        event.isCancelled = event.player.inventory.itemInMainHand == plugin.selectionItem
     }
 
     @EventHandler

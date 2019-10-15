@@ -13,8 +13,10 @@ import me.camdenorrb.minibus.MiniBus
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
+import org.bukkit.util.Vector
 import java.io.File
 import java.util.*
 
@@ -34,30 +36,48 @@ class KPortals : JavaPlugin() {
 
 	val subCmds = mutableSetOf(CreatePortalCmd(), RemovePortalCmd(), ListPortalCmd(), SetArgsCmd(), SetTypeCmd(), SelectCmd(), TypeCmd(), ArgsCmd())
 
+
 	lateinit var portals: MutableSet<Portal>
 		private set
+
 
 	val portalsFile by lazy {
 		File(dataFolder, "portals.korm")
 	}
 
-	val selectionItem = ItemStack(Material.WOODEN_PICKAXE).apply {
+	val selectionItem = ItemStack(Material.DIAMOND_AXE).apply {
 		itemMeta = itemMeta?.apply {
-			setDisplayName("${ChatColor.AQUA}Portal Selection Item")
+			displayName = "${ChatColor.AQUA}Portal Selection Item"
 			lore = listOf("KPortals")
-			isUnbreakable = true // To allow us to use .equals since it checks durability
+			addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
+			spigot().isUnbreakable = true // To allow us to use .equals since it checks durability
 		}
 	}
 
 
 	override fun onLoad() {
-
 		instance = this
+	}
 
+	override fun onEnable() {
+
+		korm.pullWith<Portal> { reader, types ->
+
+			val name = types.find { it.key.data == "name" }?.let { reader.mapData<String>(it.asBase()?.data) } ?: return@pullWith null
+			val toArgs = types.find { it.key.data == "toArgs" }?.let { reader.mapData<String>(it.asBase()?.data) } ?: return@pullWith null
+			val worldUUID = types.find { it.key.data == "worldUUID" }?.let { reader.mapData<UUID>(it.asBase()?.data) } ?: return@pullWith null
+			val type = types.find { it.key.data == "type" }?.let { reader.mapData<Portal.Type>(it.asBase()?.data) } ?: return@pullWith null
+			val positions = types.find { it.key.data == "positions" }?.let { reader.mapListData(it.asList()!!, Set::class, Vector::class.java) }?.toSet() as? Set<Vector> ?: return@pullWith null
+
+			Portal(name, toArgs, worldUUID, type, positions)
+		}
+
+		// Load legacy data, needs to be done onEnable
 		val legacyPortalFile = File(dataFolder, "portals.json")
 
-		// If legacy
 		if (!portalsFile.exists() && legacyPortalFile.exists()) {
+
+			println("Loading legacy data")
 
 			portals = legacyPortalFile.readJson(LegacyPortal.Portals()).portals.mapNotNull { legacyPortal ->
 
@@ -71,16 +91,18 @@ class KPortals : JavaPlugin() {
 			}.toMutableSet()
 
 			korm.push(portals, portalsFile)
+			println("Done loading legacy data")
 		}
 		else if (portalsFile.exists()) {
-			portals = korm.pull(portalsFile).to()!!
+			portals = korm.pull(portalsFile).toList<Portal>().toMutableSet()
 		}
-	}
+		else {
+			portals = mutableSetOf()
+		}
 
-	override fun onEnable() {
 
 		// Register the main command.
-		getCommand("portal")!!.setExecutor(PortalCmd(this))
+		getCommand("portal")!!.executor = PortalCmd(this)
 
 		// Register PlayerListener
 		val playerListener = PlayerListener(this)
