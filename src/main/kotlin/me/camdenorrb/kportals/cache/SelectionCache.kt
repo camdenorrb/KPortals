@@ -62,12 +62,12 @@ class SelectionCache(val plugin: KPortals) : ModuleBase, Listener {
         when (event.action) {
 
             Action.LEFT_CLICK_BLOCK -> {
-                selections.getOrPut(player.uniqueId, { Portal.Selection() }).sel1 = hitBlock.location
+                selections.getOrPut(player.uniqueId, { Portal.Selection() }).sel1 = hitBlock.location.toVector()
                 player.sendMessage("${ChatColor.GREEN}You have selected position one.")
             }
 
             Action.RIGHT_CLICK_BLOCK -> {
-                selections.getOrPut(player.uniqueId, { Portal.Selection() }).sel2 = hitBlock.location
+                selections.getOrPut(player.uniqueId, { Portal.Selection() }).sel2 = hitBlock.location.toVector()
                 player.sendMessage("${ChatColor.GREEN}You have selected position two.")
             }
 

@@ -16,9 +16,7 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
-import org.bukkit.util.Vector
 import java.io.File
-import java.util.*
 
 /**
  * Created by camdenorrb on 3/20/17.
@@ -61,16 +59,40 @@ class KPortals : JavaPlugin() {
 
 	override fun onEnable() {
 
-		korm.pullWith<Portal> { reader, types ->
+/*
+		korm.pushWith<Location> { writer, data ->
 
-			val name = types.find { it.key.data == "name" }?.let { reader.mapData<String>(it.asBase()?.data) } ?: return@pullWith null
-			val toArgs = types.find { it.key.data == "toArgs" }?.let { reader.mapData<String>(it.asBase()?.data) } ?: return@pullWith null
-			val worldUUID = types.find { it.key.data == "worldUUID" }?.let { reader.mapData<UUID>(it.asBase()?.data) } ?: return@pullWith null
-			val type = types.find { it.key.data == "type" }?.let { reader.mapData<Portal.Type>(it.asBase()?.data) } ?: return@pullWith null
-			val positions = types.find { it.key.data == "positions" }?.let { reader.mapListData(it.asList()!!, Set::class, Vector::class.java) }?.toSet() as? Set<Vector> ?: return@pullWith null
+			data ?: return@pushWith
 
-			Portal(name, toArgs, worldUUID, type, positions)
+			writer.writeName("worldUUID")
+			writer.writeData(data.world.uid, true)
+
+			writer.writeName("vector")
+			writer.writeData(data.toVector(), true)
+
+			if (data.yaw != 0.0F) {
+				writer.writeName("yaw")
+				writer.writeData(data.yaw, true)
+			}
+
+			if (data.pitch != 0.0F) {
+				writer.writeName("pitch")
+				writer.writeData(data.pitch, true)
+			}
 		}
+
+		korm.pullWith<Location> { reader, types ->
+
+			val worldUUID = types.find { it.key.data == "worldUUID" }?.let { reader.mapData<UUID>(it.asBase()?.data) } ?: return@pullWith null
+			val vector = types.find { it.key.data == "vector" }?.let { reader.mapData<Vector>(it.asBase()?.data) } ?: return@pullWith null
+			val yaw = types.find { it.key.data == "yaw" }?.let { reader.mapData<Float>(it.asBase()?.data) } ?: 0.0F
+			val pitch = types.find { it.key.data == "pitch" }?.let { reader.mapData<Float>(it.asBase()?.data) } ?: 0.0F
+
+			val world = server.getWorld(worldUUID) ?: return@pullWith null
+
+			vector.toLocation(world, yaw, pitch)
+		}
+*/
 
 		// Load legacy data, needs to be done onEnable
 		val legacyPortalFile = File(dataFolder, "portals.json")
@@ -94,7 +116,9 @@ class KPortals : JavaPlugin() {
 			println("Done loading legacy data")
 		}
 		else if (portalsFile.exists()) {
-			portals = korm.pull(portalsFile).toList<Portal>().toMutableSet()
+			portals = korm.pull(portalsFile).toList<Portal>().mapTo(mutableSetOf()) {
+				it.copy() // Copy so delegates don't get fucked up
+			}
 		}
 		else {
 			portals = mutableSetOf()

@@ -40,13 +40,13 @@ class CreatePortalCmd : SubCmd("-create", "/Portal -create <Name> <Type> <ToArg>
 
 		val selection = plugin.selectionCache[sender]
 
-		if (selection == null || !selection.isSelected) {
+		if (selection == null || !selection.isSelected()) {
 			NO_SELECTION.send(sender)
 			return true
 		}
 
-		val sel1 = selection.sel1!!.toVector()
-		val sel2 = selection.sel2!!.toVector()
+		val sel1 = selection.sel1
+		val sel2 = selection.sel2
 
 		val min = Vector.getMinimum(sel1, sel2)
 		val max = Vector.getMaximum(sel1, sel2)
@@ -67,7 +67,7 @@ class CreatePortalCmd : SubCmd("-create", "/Portal -create <Name> <Type> <ToArg>
 			world.getBlockAt(it.blockX, it.blockY, it.blockZ).type = EMERALD_BLOCK
 		}
 
-		plugin.portals.add(Portal(portalName, portalArgs, world.uid, portalType, portalVectors))
+		plugin.portals.add(Portal(portalName, portalArgs, world.uid, portalType, selection, portalVectors))
 
 		plugin.portalsFile.parentFile?.mkdirs()
 		plugin.portalsFile.createNewFile()

@@ -44,16 +44,18 @@ class PlayerListener(val plugin: KPortals) : Listener, MiniListener {
 
 		val portal = plugin.portals.find { portal ->
 
-			if (toVec.distance(portal.center).toInt() > portal.maxRadius) {
+            val center = portal.selection.center() ?: return@find false
+
+			if (toVec.distance(center) > portal.maxRadius) {
 				return@find false
 			}
 
 			portal.positions.any { it == toVec }
+
 		} ?: return
 
 		if (plugin.miniBus(PlayerKPortalEnterEvent(player, portal)).isCancelled) return
 
-		println("Here0")
 		when (portal.type) {
 			Portal.Type.World -> player.teleport(Bukkit.getWorld(portal.toArgs)?.spawnLocation ?: return player.sendMessage(portalNotCorrectMsg))
 			Portal.Type.Bungee -> plugin.sendPlayerToServer(player, portal.toArgs)

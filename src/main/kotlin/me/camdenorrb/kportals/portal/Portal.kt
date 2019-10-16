@@ -1,60 +1,33 @@
 package me.camdenorrb.kportals.portal
 
-import org.bukkit.Location
 import org.bukkit.util.Vector
 import java.util.*
+import kotlin.math.absoluteValue
 import kotlin.math.max
 
 /**
  * Created by camdenorrb on 3/20/17.
  */
 
+// TODO: Embed selection as a parameter so you don't need to calculate min/max ever again
 data class Portal(
     val name: String,
     var toArgs: String,
     val worldUUID: UUID,
     var type: Type = Type.Unknown,
-    val positions: Set<Vector> = setOf()
+    val selection: Selection,
+    val positions: Set<Vector>
 ) {
-
-    @delegate:Transient
-    private val minimum by lazy {
-
-        val minBlockX = positions.map(Vector::getBlockX).min()!!
-        val minBlockY = positions.map(Vector::getBlockY).min()!!
-        val minBlockZ = positions.map(Vector::getBlockZ).min()!!
-
-        Vector(minBlockX, minBlockY, minBlockZ)
-    }
-
-    @delegate:Transient
-    private val maximum by lazy {
-
-        val minBlockX = positions.map(Vector::getBlockX).max()!!
-        val minBlockY = positions.map(Vector::getBlockY).max()!!
-        val minBlockZ = positions.map(Vector::getBlockZ).max()!!
-
-        Vector(minBlockX, minBlockY, minBlockZ)
-    }
-
-    @delegate:Transient
-    val center by lazy {
-
-        val centerX = (maximum.blockX - minimum.blockX) + minimum.blockX
-        val centerY = (maximum.blockY - minimum.blockY) + minimum.blockY
-        val centerZ = (maximum.blockZ - minimum.blockZ) + minimum.blockZ
-
-        Vector(centerX, centerY, centerZ)
-    }
 
     @delegate:Transient
     val maxRadius by lazy {
 
-        val centerX = maximum.blockX - minimum.blockX
-        val centerY = maximum.blockY - minimum.blockY
-        val centerZ = maximum.blockZ - minimum.blockZ
+        val sel1 = selection.sel1 ?: return@lazy 0.0
+        val sel2 = selection.sel2 ?: return@lazy 0.0
 
-        max(max(centerX, centerY), centerZ)
+        val dist = sel1.clone().subtract(sel2)
+
+        max(max(dist.x.absoluteValue, dist.y.absoluteValue), dist.z.absoluteValue)
     }
 
 
@@ -71,9 +44,19 @@ data class Portal(
         }
     }
 
-    data class Selection(var sel1: Location? = null, var sel2: Location? = null) {
+    data class Selection(var sel1: Vector? = null, var sel2: Vector? = null) {
 
-        val isSelected get() = sel1 != null && sel2 != null
+        fun isSelected(): Boolean {
+            return sel1 != null && sel2 != null
+        }
+
+        fun center(): Vector? {
+
+            val sel1 = sel1 ?: return null
+            val sel2 = sel2 ?: return null
+
+            return sel1.clone().add(sel2).multiply(0.5)
+        }
 
     }
 

@@ -2,17 +2,15 @@ package me.camdenorrb.kportals.ext
 
 import org.bukkit.util.Vector
 
-// Expects you to provide min --> max
 fun Vector.sequenceTo(toVec: Vector): Sequence<Vector> {
 
-    val thisVec = this
-
-    println("$thisVec -> $toVec")
+    val min = Vector.getMinimum(this, toVec)
+    val max = Vector.getMaximum(this, toVec)
 
     return sequence {
-        for (x in thisVec.blockX..toVec.blockX) {
-            for (y in thisVec.blockY..toVec.blockY) {
-                for (z in thisVec.blockZ..toVec.blockZ) {
+        for (x in min.blockX..max.blockX) {
+            for (y in min.blockY..max.blockY) {
+                for (z in min.blockZ..max.blockZ) {
                     yield(Vector(x, y, z))
                 }
             }
