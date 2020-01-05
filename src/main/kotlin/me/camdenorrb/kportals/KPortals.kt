@@ -45,10 +45,10 @@ class KPortals : JavaPlugin() {
 
 	val selectionItem = ItemStack(Material.DIAMOND_AXE).apply {
 		itemMeta = itemMeta?.apply {
-			displayName = "${ChatColor.AQUA}Portal Selection Item"
+			setDisplayName("${ChatColor.AQUA}Portal Selection Item")
 			lore = listOf("KPortals")
 			addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE)
-			spigot().isUnbreakable = true // To allow us to use .equals since it checks durability
+			isUnbreakable = true // To allow us to use .equals since it checks durability
 		}
 	}
 
@@ -65,19 +65,19 @@ class KPortals : JavaPlugin() {
 			data ?: return@pushWith
 
 			writer.writeName("worldUUID")
-			writer.writeData(data.world.uid, true)
+			writer.writeData(data.world.uid)
 
 			writer.writeName("vector")
-			writer.writeData(data.toVector(), true)
+			writer.writeData(data.toVector())
 
 			if (data.yaw != 0.0F) {
 				writer.writeName("yaw")
-				writer.writeData(data.yaw, true)
+				writer.writeData(data.yaw)
 			}
 
 			if (data.pitch != 0.0F) {
 				writer.writeName("pitch")
-				writer.writeData(data.pitch, true)
+				writer.writeData(data.pitch)
 			}
 		}
 
@@ -126,7 +126,7 @@ class KPortals : JavaPlugin() {
 
 
 		// Register the main command.
-		getCommand("portal")!!.executor = PortalCmd(this)
+		getCommand("portal")!!.setExecutor(PortalCmd(this))
 
 		// Register PlayerListener
 		val playerListener = PlayerListener(this)

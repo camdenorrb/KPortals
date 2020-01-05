@@ -45,8 +45,8 @@ class CreatePortalCmd : SubCmd("-create", "/Portal -create <Name> <Type> <ToArg>
 			return true
 		}
 
-		val sel1 = selection.sel1
-		val sel2 = selection.sel2
+		val sel1 = selection.sel1!!
+		val sel2 = selection.sel2!!
 
 		val min = Vector.getMinimum(sel1, sel2)
 		val max = Vector.getMaximum(sel1, sel2)

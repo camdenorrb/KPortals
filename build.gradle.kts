@@ -3,8 +3,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     idea
-    kotlin("jvm") version "1.3.50"
-    id("com.github.johnrengelman.shadow") version "5.1.0"
+    kotlin("jvm") version "1.3.61"
+    id("com.github.johnrengelman.shadow") version "5.2.0"
 }
 
 group = "me.camdenorrb"
@@ -31,7 +31,7 @@ dependencies {
 
     //compileOnly("com.boydti:fawe-api:latest")
     //compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.0.1")
-    compileOnly("org.spigotmc:spigot-api:1.9.4-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.15.1-R0.1-SNAPSHOT")
 
     implementation(kotlin("reflect"))
     implementation(kotlin("stdlib-jdk8"))

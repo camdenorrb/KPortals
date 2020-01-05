@@ -18,7 +18,7 @@ class SelectCmd : SubCmd("-select", "/Portal -select", "kportals.select") {
             sender.sendMessage("${ChatColor.RED}Couldn't fit the portal selection item in your inventory!")
         }
         else {
-            sender.sendMessage("You have been given a portal selection item!")
+            sender.sendMessage("${ChatColor.GREEN}You have been given a portal selection item!")
         }
 
         return true

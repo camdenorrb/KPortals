@@ -13,10 +13,10 @@ fun Player.teleportToRandomLoc(radius: Int) {
 
         val randomX = (location.x - (Random.nextInt(radius * 2) - radius)).toInt()
         val randomZ = (location.z - (Random.nextInt(radius * 2) - radius)).toInt()
-        val randomY = world!!.getHighestBlockYAt(randomX, randomZ)
+        val randomY = world.getHighestBlockYAt(randomX, randomZ)
 
         if (attemptCount++ >= 10) {
-            player.sendMessage("${ChatColor.RED}We were unable to teleport you to a random safe location after 10 attempts!")
+            player?.sendMessage("${ChatColor.RED}We were unable to teleport you to a random safe location after 10 attempts!")
             break
         }
 
