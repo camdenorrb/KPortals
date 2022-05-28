@@ -37,7 +37,7 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
 
     implementation("com.sxtanna.korm:Korm:+")
-    implementation("com.github.camdenorrb:KCommons:V1.0.8")
+    implementation("com.github.camdenorrb:KCommons:V1.1.0")
     implementation("com.github.MiniMineCraft:MiniBus:1.2.9")
 }
 
