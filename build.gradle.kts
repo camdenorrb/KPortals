@@ -38,7 +38,7 @@ dependencies {
 
     implementation("com.sxtanna.korm:Korm:+")
     implementation("com.github.camdenorrb:KCommons:V1.0.8")
-    implementation("com.github.MiniMineCraft:MiniBus:V1.2.8")
+    implementation("com.github.MiniMineCraft:MiniBus:1.2.9")
 }
 
 configure<JavaPluginConvention> {
