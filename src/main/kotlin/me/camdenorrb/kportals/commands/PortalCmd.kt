@@ -27,7 +27,10 @@ class PortalCmd(val plugin: KPortals) : TabExecutor {
 
 	override fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<out String>): Boolean {
 
-		if (args.isEmpty()) return { sender.sendMessage(Messages.help); true }()
+		if (args.isEmpty()) {
+			sender.sendMessage(*Messages.help)
+			return true
+		}
 
 
 		val arguments = args.toMutableList()
@@ -35,7 +38,10 @@ class PortalCmd(val plugin: KPortals) : TabExecutor {
 		val subCmdArg = arguments.removeAt(0)
 
 		val subCmd = plugin.subCmds.find { it.arg.equals(subCmdArg, true) }
-				?: return { sender.sendMessage(Messages.help); true }()
+				?: run {
+					sender.sendMessage(*Messages.help)
+					return true
+				}
 
 
 		if (sender.hasPermission(subCmd.permission).not()) {

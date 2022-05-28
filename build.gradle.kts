@@ -36,9 +36,9 @@ dependencies {
     implementation(kotlin("reflect"))
     implementation(kotlin("stdlib-jdk8"))
 
-    implementation("com.sxtanna.korm:Korm:+")
+    implementation("com.sxtanna.korm:Korm:3.4.0")
     implementation("com.github.camdenorrb:KCommons:V1.1.0")
-    implementation("com.github.MiniMineCraft:MiniBus:1.2.9")
+    implementation("me.camdenorrb:MiniBus:1.4.0")
 }
 
 configure<JavaPluginConvention> {
