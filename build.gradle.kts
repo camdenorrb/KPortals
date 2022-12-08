@@ -31,7 +31,7 @@ dependencies {
 
     //compileOnly("com.boydti:fawe-api:latest")
     //compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.0.1")
-    compileOnly("org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.19.3-R0.1-SNAPSHOT")
 
     implementation(kotlin("reflect"))
     implementation(kotlin("stdlib-jdk8"))
